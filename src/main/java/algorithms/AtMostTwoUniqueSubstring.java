@@ -6,27 +6,27 @@ import java.util.Arrays;
  * Task**: Find the longest sequence with at most 2 different characters.
  * Output**: Print the length of the sequence.
  */
-public class KUniqueSubstring {
+class AtMostTwoUniqueSubstring {
     private static final int TOTAL_UNIQUE_CHARS = 256;
     private static final char FIRST_CHAR = '!';
-    private static final int[] map = new int[TOTAL_UNIQUE_CHARS];
+    private static final int[] CACHE = new int[TOTAL_UNIQUE_CHARS];
 
-    private static boolean lessOccurrencesThan(int[] map, int k) {
+    private static boolean lessOccurrencesThan() {
         int sum = 0;
-        for (int i = 0; i < map.length; i++) {
-            sum += map[i] > 0 ? 1 : 0;
-            if (sum > k) {
+        for (int value : CACHE) {
+            sum += value > 0 ? 1 : 0;
+            if (sum > 2) {
                 return true;
             }
         }
         return false;
     }
 
-    public static int longest2UniqueSequenceLength(final String input) {
-        return longestKUniqueSequence(input, 2).length();
+    static int longest2UniqueSequenceLength(final String input) {
+        return longest2UniqueSequence(input).length();
     }
 
-    private static String longestKUniqueSequence(final String input, int k) {
+    private static String longest2UniqueSequence(final String input) {
         if (input == null || "".equals(input)) {
             return "";
         }
@@ -35,15 +35,15 @@ public class KUniqueSubstring {
         int max_length = 1;
         int max_start = 0;
 
-        Arrays.fill(map, 0);
-        map[input.charAt(0) - FIRST_CHAR]++;
+        Arrays.fill(CACHE, 0);
+        CACHE[input.charAt(0) - FIRST_CHAR]++;
 
         for (int i = 1; i < input.length(); i++) {
-            map[input.charAt(i) - FIRST_CHAR]++;
+            CACHE[input.charAt(i) - FIRST_CHAR]++;
             end++;
 
-            while (lessOccurrencesThan(map, k)) {
-                map[input.charAt(start) - FIRST_CHAR]--;
+            while (lessOccurrencesThan()) {
+                CACHE[input.charAt(start) - FIRST_CHAR]--;
                 start++;
             }
             if (end - start + 1 > max_length) {
@@ -55,7 +55,7 @@ public class KUniqueSubstring {
     }
 
     public static void main(String... args) {
-        String input = args[0]; // "aabacbebebe";
+        String input = "alwayshopeforthebest";
         System.out.println(longest2UniqueSequenceLength(input));
     }
 }

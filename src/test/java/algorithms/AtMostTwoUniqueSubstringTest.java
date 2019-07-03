@@ -7,7 +7,7 @@ import java.util.Random;
 
 import static org.testng.Assert.*;
 
-public class KUniqueSubstringTest {
+public class AtMostTwoUniqueSubstringTest {
     @DataProvider
     public Object[][] alphabetical() {
         return new Object[][]{
@@ -27,8 +27,7 @@ public class KUniqueSubstringTest {
 
     @Test(dataProvider = "alphabetical")
     public void alphabetical(String input, int length) {
-        int actual = KUniqueSubstring.longest2UniqueSequenceLength(input);
-        assertEquals(actual, length);
+        check(input, length);
     }
 
     @DataProvider
@@ -48,8 +47,7 @@ public class KUniqueSubstringTest {
 
     @Test(dataProvider = "numerical")
     public void numerical(String input, int length) {
-        int actual = KUniqueSubstring.longest2UniqueSequenceLength(input);
-        assertEquals(actual, length);
+        check(input, length);
     }
 
     @DataProvider
@@ -69,8 +67,7 @@ public class KUniqueSubstringTest {
 
     @Test(dataProvider = "special")
     public void special(String input, int length) {
-        int actual = KUniqueSubstring.longest2UniqueSequenceLength(input);
-        assertEquals(actual, length);
+        check(input, length);
     }
 
     @DataProvider
@@ -92,20 +89,24 @@ public class KUniqueSubstringTest {
 
     @Test(dataProvider = "mix")
     public void mix(String input, int length) {
-        int actual = KUniqueSubstring.longest2UniqueSequenceLength(input);
+        check(input, length);
+    }
+
+    private void check(String input, int length) {
+        int actual = AtMostTwoUniqueSubstring.longest2UniqueSequenceLength(input);
         assertEquals(actual, length);
     }
 
     @Test(enabled = false)
     public void run_with_care() {
-        int maximumHeapSize = 1 * 1024 * 1024 * 1024 - 1;
+        int maximumHeapSize = 1024 * 1024 * 1024 - 1;
         final String alphabet = "~!@#$%^&*()_+0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < Math.min(maximumHeapSize / 2, Integer.MAX_VALUE); i++) {
             sb.append(alphabet.charAt(random.nextInt(alphabet.length())));
         }
-        int actual = KUniqueSubstring.longest2UniqueSequenceLength(sb.toString());
+        int actual = AtMostTwoUniqueSubstring.longest2UniqueSequenceLength(sb.toString());
         assertTrue(actual > 0);
     }
 }
